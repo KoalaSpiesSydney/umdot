@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://use.typekit.net/lfp3llb.css">
+  <title>Clovelly Kirtan</title>
+  <style>
+    header {
+  background: var(--light-bg);
+  color: var(--ink-dark);
+  text-align: center;
+  padding: 20px;
+font-family: "pulpo-rust-100", serif;
+font-weight: 400;
+font-style: normal;
+  font-size: 3.2rem;
+  letter-spacing: 50px;
+
+  h1 { 
+    
+font-family: "pulpo-rust-50", serif;
+font-weight: 400;
+font-style: normal;}
+}
+
+    
+    @font-face {
+      font-family: 'Angilla Tattoo';
+      src: url('fonts/AngillaTattoo.ttf') format('truetype');
+    }
+
+    body, html {
+      margin: 0; padding: 0;
+      height: 100%;
+      font-family: "pulpo-rust-50", serif;
+font-weight: 400;
+font-style: normal;
+      font-family: Arial, sans-serif;
+      color: #fff;
+    }
+
+    /* Full background video */
+    #bg-video {
+      position: fixed;
+      top: 0; left: 0;
+      min-width: 100%; min-height: 100%;
+      width: auto; height: auto;
+      z-index: -1;
+      object-fit: cover;
+      opacity: 80%;
+    }
+
+    /* Overlay content */
+    .site-content {
+      position: relative;
+      z-index: 1;
+      background: rgba(0,0,0,0.5);
+      min-height: 100vh;
+      text-align: center;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Title wrapper */
+    .title-wrapper {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 8%;
+    }
+
+    #electric-visual {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    .title-wrapper h1 {
+      position: relative;
+      z-index: 1;
+      color: #efebeb;
+      opacity: 90%;
+      font-family: "pulpo-rust-50", serif;
+      font-weight: 400;
+      font-style: normal;
+      font-size: 3.6rem;
+      letter-spacing: 20px;
+      margin: 5px;
+      padding: 5px;
+      display: inline-block;
+      transition: transform 0.1s ease-in-out;
+    }
+
+    /* Playlist stacked vertically */
+    .playlist {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      padding: 10px;
+      max-width: 600px;
+      margin-top: auto;
+      margin-bottom: 20px;
+      width: 100%;
+      opacity: 70%;
+    }
+
+    .track {
+      cursor: pointer;
+      width: 100%;
+      max-width: 600px;
+      text-align: center;
+      padding: 16px;
+      background: #6cd6f1;
+      border-radius: 6px;
+      transition: 0.3s;
+      font-family: "pulpo-rust-100", serif;
+      font-weight: 400;
+      font-style: normal;
+      opacity: 70%;
+    }
+    .track:hover { background: #333; }
+    .track.playing { background: #ee84f7; }
+
+    .track h2 {
+      font-size: 1rem;
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Footer */
+    .site-footer {
+      background: rgba(29,1,1,0.7);
+      text-align: center;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 0.9rem;
+       max-width: 600px;
+      text-align: center;
+      color: #aaa;
+    }
+    footer {
+  margin-top: 60px;
+  background: var(--light-bg);
+  color: var(--ink-dark);
+  text-align: center;
+  padding: 15px;
+}
+
+footer nav a {
+  color: var(--ink-dark);
+  margin: 0 10px;
+  text-decoration: none;
+  font-weight: bold;
+  letter-spacing: 5px;
+}
+
+footer nav a:hover {
+  text-decoration: underline;
+}
+  </style>
+</head>
+<body>
+  <header>
+    Clovelly Kirtan
+  </header>
+
+  <!-- Full background video -->
+  <video id="bg-video" autoplay muted loop playsinline>
+    <source src="130926-749667851_small.mp4" type="video/mp4">
+  </video>
+
+  <!-- Content -->
+  <div class="site-content">
+
+    <!-- Title with waves behind -->
+    <div class="title-wrapper">
+      <canvas id="electric-visual"></canvas>
+      <h1 id="song-title">Shangra-Lah</h1>
+    </div>
+
+    <!-- Hidden audio player -->
+    <audio id="audio-player" controls style="display:none"></audio>
+
+    <!-- Playlist (stacked) -->
+    <section class="playlist">
+      <div class="track" data-src="Umdotclaplityclap.mp3"><h2>Um dodot</h2></div>
+      <div class="track" data-src="Ummmmmmmmmmm (1).mp3"><h2>Shangra-lah</h2></div>
+      <div class="track" data-src="Bugattinbitches.mp3"><h2>Bugatti</h2></div>
+  
+    </section>
+
+    <footer>
+    <nav>
+      <a href="Kssabout.index.html">About</a>
+      <a href="KSScontact.index.html">Contact</a>
+      <p>&copy; 2025 Koala Spies Sydney <br>koalaspies@duck.com</p>
+    </nav>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const audioPlayer = document.getElementById('audio-player');
+    const tracks = document.querySelectorAll('.track');
+    const canvas = document.getElementById('electric-visual');
+    const ctx = canvas.getContext('2d');
+    const title = document.getElementById('song-title');
+
+    let currentTrackIndex = -1;
+    let audioCtx, analyser, source, dataArray;
+    let phase = 0;
+    let isPlaying = false;
+
+    // Resize canvas
+    function resizeCanvas() {
+      const wrapper = document.querySelector('.title-wrapper');
+      canvas.width = wrapper.offsetWidth;
+      canvas.height = wrapper.offsetHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // Setup Web Audio
+    function setupAnalyser() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        source = audioCtx.createMediaElementSource(audioPlayer);
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 512;
+        analyser.smoothingTimeConstant = 0.8;
+        dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+        // Send audio to both analyser and speakers
+        source.connect(analyser);
+        analyser.connect(audioCtx.destination);
+        source.connect(audioCtx.destination);
+      }
+    }
+
+    function getBassEnergy() {
+      if (!analyser || !isPlaying) return 0;
+      analyser.getByteFrequencyData(dataArray);
+      const n = Math.max(8, Math.floor(dataArray.length * 0.12));
+      let sum = 0;
+      for (let i = 0; i < n; i++) sum += dataArray[i];
+      return (sum / (n * 255));
+    }
+
+    function drawWave(color, y, wavelengthPx, baseAmp, reactAmp, phaseOffset) {
+      const energy = getBassEnergy();
+      const amp = baseAmp + energy * reactAmp;
+
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      for (let x = 0; x <= canvas.width; x += 2) {
+        const yy = y + Math.sin((x / wavelengthPx) + phase + phaseOffset) * amp;
+        ctx.lineTo(x, yy);
+      }
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (isPlaying) {
+        drawWave("rgba(135,206,250,0.75)", canvas.height * 0.38, 42, 12, 22, 0.0);
+        drawWave("rgba(30,144,255,0.65)",  canvas.height * 0.68, 64, 16, 28, 1.7);
+
+        const energy = getBassEnergy();
+        const swayDeg = Math.sin(phase * 1.6) * (2 + energy * 4);
+        const bobPx  = Math.sin(phase * 1.1 + 0.7) * (2 + energy * 6);
+        title.style.transform = `translateY(${bobPx}px) rotate(${swayDeg}deg)`;
+
+        phase += 0.02;
+      } else {
+        title.style.transform = "none";
+      }
+
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    function playTrack(index) {
+      const track = tracks[index];
+      const trackName = track.textContent.trim();
+
+      if (currentTrackIndex === index && !audioPlayer.paused) {
+        audioPlayer.pause();
+        track.classList.remove('playing');
+        isPlaying = false;
+        return;
+      }
+
+      setupAnalyser();
+      audioCtx.resume?.();
+
+      tracks.forEach(t => t.classList.remove('playing'));
+      audioPlayer.src = track.dataset.src;
+
+      audioPlayer.play().then(() => {
+        console.log("Now playing:", audioPlayer.src);
+        isPlaying = true;
+      }).catch(err => {
+        console.error("Playback error:", err);
+        isPlaying = false;
+      });
+
+      currentTrackIndex = index;
+      track.classList.add('playing');
+      title.textContent = trackName;
+    }
+
+    tracks.forEach((track, i) => {
+      track.addEventListener('click', () => playTrack(i));
+    });
+
+    audioPlayer.addEventListener('ended', () => {
+      if (currentTrackIndex >= 0) {
+        tracks[currentTrackIndex].classList.remove('playing');
+      }
+      isPlaying = false;
+    });
+  });
+  </script>
+</body>
+</html>
