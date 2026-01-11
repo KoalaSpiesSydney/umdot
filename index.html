@@ -7,254 +7,219 @@
   <title>Clovelly Kirtan</title>
 
   <style>
-    body, html {
-      margin: 0; padding: 0;
-      height: 100%;
-      font-family: "pulpo-rust-50", serif;
-      font-weight: 400;
-      font-style: normal;
-      color: #fff;
-      overflow-x: hidden;
+  /* HEADER */
+  header {
+    text-align: center;
+    padding: 20px;
+    font-family: "pulpo-rust-100", serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 2.2rem;
+    letter-spacing: 15px;
+
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.6),
+      rgba(0, 0, 0, 0.2)
+    );
+  }
+
+  /* BASE */
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: "pulpo-rust-50", serif;
+    font-weight: 400;
+    font-style: normal;
+    color: #fff;
+  }
+
+  /* VIDEO BACKGROUND */
+  #bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -1;
+    object-fit: cover;
+  }
+
+  /* MAIN LAYOUT — STICKY FOOTER */
+  .site-content {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    text-align: center;
+    padding: 40px 20px;
+    align-items: center;
+  }
+
+  /* TITLE + CANVAS */
+  .title-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 8%;
+  }
+
+  #electric-visual {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+
+  /* SONG TITLE */
+  #song-title {
+    position: relative;
+    z-index: 1;
+    color: #efebeb;
+    opacity: 0.9;
+    font-family: "pulpo-rust-50", serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 3.6rem;
+    letter-spacing: 20px;
+    margin: 5px;
+    padding: 5px;
+    display: inline-block;
+    animation: glowPulse 6s ease-in-out infinite;
+  }
+
+  @keyframes glowPulse {
+    0%, 100% {
+      text-shadow: 0 0 10px #6cd6f1, 0 0 20px #6cd6f1;
     }
+    50% {
+      text-shadow: 0 0 25px #1e90ff, 0 0 45px #1e90ff;
+    }
+  }
+
+  #song-title span {
+    display: inline-block;
+    animation: waveFloat 3s ease-in-out infinite;
+  }
+  #song-title span:nth-child(n) {
+    animation-delay: calc(0.15s * var(--i));
+  }
+
+  @keyframes waveFloat {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-10px); }
+  }
+
+  /* PLAYLIST */
+  .playlist {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 10px;
+    max-width: 600px;
+    margin-bottom: 20px;
+    width: 100%;
+    opacity: 70%;
+  }
+
+  .track {
+    cursor: pointer;
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+    padding: 16px;
+    background: #6cd6f1;
+    border-radius: 6px;
+    transition: 0.3s;
+    font-family: "pulpo-rust-100", serif;
+    opacity: 80%;
+  }
+  .track:hover { background: #333; }
+  .track.playing { background: #ee84f7; }
+
+  .track h2 {
+    font-size: 1rem;
+    margin: 0;
+    text-transform: lowercase;
+    letter-spacing: 1px;
+  }
+
+  /* FOOTER — STICKY */
+  footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: auto;
+  }
+
+  footer nav a {
+    color: var(--ink-dark);
+    margin: 0 10px;
+    text-decoration: none;
+    font-weight: bold;
+    letter-spacing: 5px;
+  }
+
+  footer nav a:hover {
+    text-decoration: underline;
+  }
+
+  /* RESPONSIVE — MOBILE */
+  @media (max-width: 600px) {
 
     header {
-      text-align: center;
-      padding: 20px;
-      font-family: "pulpo-rust-100", serif;
-      font-weight: 400;
-      font-style: normal;
-      font-size: 3.2rem;
-      letter-spacing: 50px;
+      font-size: 1.4rem;
+      letter-spacing: 5px;
+      padding: 15px;
     }
 
-    #bg-video {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: -1;
-    }
-
-    .site-content {
-      position: relative;
-      z-index: 1;
-      min-height: 100vh;
-      text-align: center;
-      padding: 40px 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .title-wrapper {
-      position: relative;
-      display: inline-block;
-      margin-bottom: 8%;
-    }
-
-    #electric-visual {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    /* Dreamlike song title */
     #song-title {
-      position: relative;
-      z-index: 2;
-      color: #efebeb;
-      opacity: 0.9;
-      font-family: "pulpo-rust-50", serif;
-      font-weight: 400;
-      font-style: normal;
-      font-size: 3.6rem;
-      letter-spacing: 20px;
-      margin: 5px;
-      padding: 5px;
-      display: inline-block;
-      animation: glowPulse 6s ease-in-out infinite;
-    }
-
-    @keyframes glowPulse {
-      0%, 100% { text-shadow: 0 0 10px #6cd6f1, 0 0 20px #6cd6f1; }
-      50%      { text-shadow: 0 0 25px #1e90ff, 0 0 45px #1e90ff; }
-    }
-
-    /* wave bobbing letters */
-    #song-title span {
-      display: inline-block;
-      animation: waveFloat 3s ease-in-out infinite;
-    }
-    #song-title span:nth-child(n) {
-      animation-delay: calc(0.15s * var(--i));
-    }
-
-    @keyframes waveFloat {
-      0%, 100% { transform: translateY(0); }
-      50%      { transform: translateY(-10px); }
+      font-size: 2rem;
+      letter-spacing: 8px;
+      padding: 2px;
     }
 
     .playlist {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
-      padding: 10px;
-      max-width: 600px;
-      margin-top: auto;
-      margin-bottom: 20px;
-      width: 100%;
-      opacity: 0.7;
+      gap: 12px;
+      padding: 5px;
     }
 
     .track {
-      cursor: pointer;
-      width: 100%;
-      max-width: 600px;
-      text-align: center;
-      padding: 16px;
-      background: #6cd6f1;
-      border-radius: 6px;
-      transition: 0.3s;
-      font-family: "pulpo-rust-100", serif;
-      font-weight: 400;
-      font-style: normal;
-      opacity: 0.8;
-    }
-    .track:hover { background: #333; }
-    .track.playing { background: #ee84f7; }
-
-    .track h2 {
-      font-size: 1rem;
-      margin: 0;
-      text-transform: lowercase;
-      letter-spacing: 1px;
-      font-weight: 400;
-    }
-
-    footer {
-      margin-top: 60px;
-      text-align: center;
-      padding: 15px;
-      width: 100%;
-      max-width: 900px;
-    }
-
-    footer nav {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 28px;
-      flex-wrap: wrap;
-    }
-
-    footer nav a {
-      color: #fff;
-      margin: 0 10px;
-      text-decoration: none;
-      font-weight: bold;
-      letter-spacing: 3px;
-    }
-
-    footer nav a:hover {
-      text-decoration: underline;
-    }
-
-    footer p{
-      margin: 10px 0 0;
-      opacity: 0.85;
-    }
-
-    /* ==========================
-       EMBED MODE (in iframes)
-       ========================== */
-    body.is-embed header{
-      padding: 10px 10px;
-      font-size: 1.6rem;
-      letter-spacing: 12px;
-    }
-
-    body.is-embed .site-content{
-      min-height: auto;     /* KEY: don’t force 100vh inside a square iframe */
-      padding: 14px 12px;
-    }
-
-    body.is-embed .title-wrapper{
-      margin-bottom: 10px;  /* was 8% */
-    }
-
-    body.is-embed #song-title{
-      font-size: 2.05rem;
-      letter-spacing: 8px;
-      margin: 6px 0 10px;
-      animation: none;      /* saves space + reduces visual noise in preview */
-      text-shadow: 0 0 14px rgba(108,214,241,0.75);
-    }
-
-    body.is-embed #song-title span{
-      animation: none;      /* optional: remove bobbing to keep title compact */
-    }
-
-    body.is-embed .playlist{
-      max-width: 380px;
-      gap: 10px;
-      padding: 0;
-      margin-top: 10px;     /* stop pushing to bottom in embed */
-      margin-bottom: 10px;
-      opacity: 0.85;
-    }
-
-    body.is-embed .track{
-      max-width: 380px;
-      padding: 10px;
-      border-radius: 10px;
-    }
-
-    body.is-embed .track h2{
-      font-size: 0.95rem;
-      letter-spacing: 0.5px;
-    }
-
-    body.is-embed footer{
-      margin-top: 10px;     /* was 60 */
-      padding: 10px;
+      padding: 12px;
       font-size: 0.9rem;
     }
 
-    body.is-embed footer nav{
-      gap: 14px;
+    .track h2 {
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
     }
 
-    body.is-embed footer nav a{
-      letter-spacing: 2px;
-      font-size: 0.95rem;
+    .title-wrapper {
+      margin-bottom: 15%;
     }
+  }
 
-    body.is-embed footer p{
-      margin-top: 8px;
-      line-height: 1.25;
-    }
-
-    /* If your iframe is tiny, stack footer links */
-    @media (max-width: 520px){
-      body.is-embed footer nav{
-        flex-direction: column;
-        gap: 10px;
-      }
-    }
   </style>
 </head>
 
 <body>
-  <header>Clovelly Kirtan</header>
+
+  <header>
+    Meditations with Brea & friends
+  </header>
 
   <video id="bg-video" autoplay muted loop playsinline>
-    <source src="130926-749667851_small.mp4" type="video/mp4">
+    <source src="Brea2.mp4" type="video/mp4">
   </video>
 
   <div class="site-content">
+
     <div class="title-wrapper">
       <canvas id="electric-visual"></canvas>
       <h1 id="song-title">Shangra-Lah</h1>
@@ -263,100 +228,99 @@
     <audio id="audio-player" controls style="display:none"></audio>
 
     <section class="playlist">
-      <div class="track" data-src="Umdotclaplityclap.mp3"><h2>Um dodot clapity Clap</h2></div>
-      <div class="track" data-src="Ummmmmmmmmmm.mp3"><h2>Shangra-lah</h2></div>
-      <div class="track" data-src="ummdotdot.mp3"><h2>Shangra-lah</h2></div>
+      <div class="track" data-src="Padmeshang.mp3"><h2>Pad me Shangra la</h2></div>
+      <div class="track" data-src="ummdotdot.mp3"><h2>Un dot clappity clal</h2></div>
+      <div class="track" data-src="guided.mp3"><h2>This week's guided meditation</h2></div>
     </section>
 
     <footer>
       <nav>
         <a href="Kssabout.index.html">About</a>
         <a href="KSScontact.index.html">Contact</a>
+        <p>&copy; 2025 Koala Spies Sydney <br>koalaspies@duck.com</p>
       </nav>
-      <p>&copy; 2025 Koala Spies Sydney <br>koalaspies@duck.com</p>
     </footer>
+
   </div>
 
   <script>
-    // ✅ Auto-enable compact layout when embedded in an iframe
-    if (window.self !== window.top) {
-      document.body.classList.add('is-embed');
+  document.addEventListener('DOMContentLoaded', function () {
+    const audioPlayer = document.getElementById('audio-player');
+    const tracks = document.querySelectorAll('.track');
+    const canvas = document.getElementById('electric-visual');
+    const ctx = canvas.getContext('2d');
+    const title = document.getElementById('song-title');
+
+    let currentTrackIndex = -1;
+    let phase = 0;
+
+    function resizeCanvas() {
+      const wrapper = document.querySelector('.title-wrapper');
+      canvas.width = wrapper.offsetWidth;
+      canvas.height = wrapper.offsetHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function drawWave(color, y, wavelengthPx, baseAmp, phaseOffset) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      for (let x = 0; x <= canvas.width; x += 2) {
+        const yy = y + Math.sin((x / wavelengthPx) + phase + phaseOffset) * baseAmp;
+        ctx.lineTo(x, yy);
+      }
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 2;
+      ctx.stroke();
     }
 
-    document.addEventListener('DOMContentLoaded', function () {
-      const audioPlayer = document.getElementById('audio-player');
-      const tracks = document.querySelectorAll('.track');
-      const canvas = document.getElementById('electric-visual');
-      const ctx = canvas.getContext('2d');
-      const title = document.getElementById('song-title');
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawWave("rgba(135,206,250,0.75)", canvas.height * 0.4, 42, 15, 0.0);
+      drawWave("rgba(30,144,255,0.65)",  canvas.height * 0.65, 64, 20, 1.7);
+      phase += 0.02;
+      requestAnimationFrame(animate);
+    }
+    animate();
 
-      let currentTrackIndex = -1;
-      let phase = 0;
+    function wrapLetters(text) {
+      return text.split("").map((ch, i) =>
+        `<span style="--i:${i+1}">${ch}</span>`
+      ).join("");
+    }
 
-      function resizeCanvas() {
-        const wrapper = document.querySelector('.title-wrapper');
-        canvas.width = wrapper.offsetWidth;
-        canvas.height = wrapper.offsetHeight;
-      }
-      window.addEventListener('resize', resizeCanvas);
-      resizeCanvas();
+    function playTrack(index) {
+      const track = tracks[index];
+      const trackName = track.textContent.trim();
 
-      function drawWave(color, y, wavelengthPx, baseAmp, phaseOffset) {
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        for (let x = 0; x <= canvas.width; x += 2) {
-          const yy = y + Math.sin((x / wavelengthPx) + phase + phaseOffset) * baseAmp;
-          ctx.lineTo(x, yy);
-        }
-        ctx.strokeStyle = color;
-        ctx.lineWidth = 2;
-        ctx.stroke();
+      if (currentTrackIndex === index && !audioPlayer.paused) {
+        audioPlayer.pause();
+        track.classList.remove('playing');
+        return;
       }
 
-      function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        drawWave("rgba(135,206,250,0.75)", canvas.height * 0.4, 42, 15, 0.0);
-        drawWave("rgba(30,144,255,0.65)",  canvas.height * 0.65, 64, 20, 1.7);
-        phase += 0.02;
-        requestAnimationFrame(animate);
-      }
-      animate();
+      tracks.forEach(t => t.classList.remove('playing'));
+      audioPlayer.src = track.dataset.src;
+      audioPlayer.play().catch(err => console.error("Playback error:", err));
 
-      function wrapLetters(text) {
-        return text.split("").map((ch, i) =>
-          `<span style="--i:${i+1}">${ch}</span>`
-        ).join("");
-      }
+      currentTrackIndex = index;
+      track.classList.add('playing');
 
-      function playTrack(index) {
-        const track = tracks[index];
-        const trackName = track.textContent.trim();
+      title.innerHTML = wrapLetters(trackName);
+    }
 
-        if (currentTrackIndex === index && !audioPlayer.paused) {
-          audioPlayer.pause();
-          track.classList.remove('playing');
-          return;
-        }
-
-        tracks.forEach(t => t.classList.remove('playing'));
-        audioPlayer.src = track.dataset.src;
-        audioPlayer.play().catch(() => {});
-        currentTrackIndex = index;
-        track.classList.add('playing');
-
-        title.innerHTML = wrapLetters(trackName);
-      }
-
-      tracks.forEach((track, i) => {
-        track.addEventListener('click', () => playTrack(i));
-      });
-
-      audioPlayer.addEventListener('ended', () => {
-        if (currentTrackIndex >= 0) {
-          tracks[currentTrackIndex].classList.remove('playing');
-        }
-      });
+    tracks.forEach((track, i) => {
+      track.addEventListener('click', () => playTrack(i));
     });
+
+    audioPlayer.addEventListener('ended', () => {
+      if (currentTrackIndex >= 0) {
+        tracks[currentTrackIndex].classList.remove('playing');
+      }
+    });
+  });
   </script>
+
 </body>
 </html>
+
